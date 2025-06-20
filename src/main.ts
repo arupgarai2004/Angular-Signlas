@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, effect } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 @Component({
@@ -21,6 +21,15 @@ export class App {
   }
 
    sumValue  = computed(() => this.numberOne() + this.numberTwo());
+
+   ngOnInit(){
+    effect(() => {
+      console.log(this.numberOne());
+      
+    });
+   }
+
+   
   
   
 }
