@@ -1,1 +1,16 @@
-<p>signal-store works!</p>
+<h2>Todo List</h2>
+    <ul>
+      <li *ngFor="let task of todoStore.tasks()">
+        <input
+          type="checkbox"
+          [checked]="task.completed"
+          (change)="todoStore.toggleTask(task.id)"
+        />
+        {{ task.title }}
+        <button (click)="todoStore.removeTask(task.id)">Remove</button>
+      </li>
+    </ul>
+    <button (click)="todoStore.addTask('New Task')">Add Task</button>
+    <p>Completed Tasks: {{ todoStore.completedTasks().length }}</p>
+    <p>Incomplete Tasks: {{ todoStore.incompleteTasks().length }}</p>
+  
