@@ -1,37 +1,28 @@
 import { Component, computed, signal, effect } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
+import { RouterModule, provideRouter } from '@angular/router';
+import { routes } from './app/app-routing-module';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <h1>Hello from {{ name }} {{ count() }}! {{sumValue()}}</h1>
-    <input type="button" (click)="increseVal()" value="Increse"/>
+  imports: [RouterModule],
+  template: ` 
+    <nav>
+    <a routerLink="/signal">Go to Signal</a>
+     | 
+    <a routerLink="/signal-store">Signal Store</a>
+    </nav>
+    <router-outlet>Test</router-outlet>
+
   `,
 })
 export class App {
   name = 'Angular';
 
-  count= signal(0);
-  numberOne=signal(3);
-  numberTwo=signal(5);
-
-  increseVal(){
-    this.count.update(value=> value+1);
-    this.numberOne.update(value=> value + 5);
-  }
-
-   sumValue  = computed(() => this.numberOne() + this.numberTwo());
-
-   ngOnInit(){
-    effect(() => {
-      console.log(this.numberOne());
-      
-    });
-   }
-
-   
   
   
 }
 
-bootstrapApplication(App);
+bootstrapApplication(App, {
+  providers: [provideRouter(routes)]
+});
