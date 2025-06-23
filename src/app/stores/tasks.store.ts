@@ -5,44 +5,32 @@ import {
     withMethods,
     patchState
   } from '@ngrx/signals';
-  import { computed } from '@angular/core';
+  import { computed, Injectable } from '@angular/core';
   
-  
-  interface Task {
+  export interface Task {
     id: number;
     title: string;
     completed: boolean;
   }
   
-  //
-  // Create a Signal Store for managing tasks (TodoStore)
-  //
+  export interface TodoState {
+    tasks: Task[];
+  }
+  
   export const TodoStore = signalStore(
+    { providedIn: 'root' },
+    withState<TodoState>({ tasks: [] }),
   
-   { providedIn: 'root' },
-  
-    // ✅ Initial state of the store
-    withState<{ tasks: Task[] }>({
-      tasks: []
-    }),
-  
-    // ✅ Computed properties: derived state
     withComputed(({ tasks }) => ({
-      
       completedTasks: computed(() =>
-        tasks().filter(task => task.completed)
+        tasks().filter((task: Task) => task.completed)
       ),
-  
-      // All incomplete tasks
       incompleteTasks: computed(() =>
-        tasks().filter(task => !task.completed)
+        tasks().filter((task: Task) => !task.completed)
       )
     })),
   
-    // ✅ Store methods for updating state
     withMethods((store) => ({
-  
-      // Add a new task with unique ID and default `completed: false`
       addTask(title: string) {
         patchState(store, {
           tasks: [
@@ -51,26 +39,23 @@ import {
           ]
         });
       },
-  
-      // Toggle the completed status of a task
       toggleTask(id: number) {
         patchState(store, {
-          tasks: store.tasks().map(task =>
+          tasks: store.tasks().map((task: Task) =>
             task.id === id
               ? { ...task, completed: !task.completed }
               : task
           )
         });
       },
-  
-      // Remove a task by its ID
       removeTask(id: number) {
         patchState(store, {
-          tasks: store.tasks().filter(task => task.id !== id)
+          tasks: store.tasks().filter((task: Task) => task.id !== id)
         });
       }
-  
     }))
-
   );
+  
+  // 👇 Export a type for better typing in components
+  export type TodoStoreType = ReturnType<typeof TodoStore>;
   
