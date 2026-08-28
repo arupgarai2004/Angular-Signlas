@@ -5,7 +5,7 @@ import {
     withMethods,
     patchState
   } from '@ngrx/signals';
-  import { computed, Injectable } from '@angular/core';
+  import { computed } from '@angular/core';
   
   export interface Task {
     id: number;
@@ -19,9 +19,9 @@ import {
   
   export const TodoStore = signalStore(
     { providedIn: 'root' },
-    withState<TodoState>({ tasks: [] }),
+    withState<TodoState>({ tasks: [] }), // Initial state with an empty tasks array
   
-    withComputed(({ tasks }) => ({
+    withComputed(({ tasks }) => ({ // Computed properties for completed and incomplete tasks
       completedTasks: computed(() =>
         tasks().filter((task: Task) => task.completed)
       ),
@@ -30,7 +30,7 @@ import {
       )
     })),
   
-    withMethods((store) => ({
+    withMethods((store) => ({ // Methods to manipulate the state
       addTask(title: string) {
         patchState(store, {
           tasks: [
@@ -56,6 +56,6 @@ import {
     }))
   );
   
-  // 👇 Export a type for better typing in components
+  
   export type TodoStoreType = InstanceType<typeof TodoStore>;
   
