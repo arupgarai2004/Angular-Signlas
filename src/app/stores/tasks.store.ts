@@ -57,5 +57,5 @@ import {
   );
   
   // 👇 Export a type for better typing in components
-  export type TodoStoreType = ReturnType<typeof TodoStore>;
+  export type TodoStoreType = InstanceType<typeof TodoStore>;
   
