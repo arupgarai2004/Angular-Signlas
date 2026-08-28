@@ -12,7 +12,7 @@ import { routes } from './app/app-routing-module';
      | 
     <a routerLink="/signal-store">Signal Store</a>
     </nav>
-    <router-outlet>Test</router-outlet>
+    <router-outlet></router-outlet>
 
   `,
 })
