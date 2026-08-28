@@ -20,11 +20,8 @@ export class SignalExample {
 
    sumValue  = computed(() => this.numberOne() + this.numberTwo());
 
-   ngOnInit(){
-    effect(() => {
-      console.log(this.numberOne());
-      
-    });
-   }  
+    logEffect = effect(() => {
+    console.log(this.numberOne());
+  });  
 
 }
